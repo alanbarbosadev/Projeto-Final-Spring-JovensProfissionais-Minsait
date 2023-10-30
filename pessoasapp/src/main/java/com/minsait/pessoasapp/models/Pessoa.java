@@ -19,8 +19,8 @@ public class Pessoa {
     private String cep;
     private String cidade;
     private String uf;
-    @OneToMany
-    @JoinColumn(name = "pessoa_id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
     private Set<Contato> contatos = new HashSet<>();
 
     public Pessoa() {}
