@@ -82,6 +82,14 @@ public class Pessoa {
         this.uf = uf;
     }
 
+    public Set<Contato> getContatos() {
+        return contatos;
+    }
+
+    public String enderecoMalaDireta() {
+        return endereco + " - CEP: " + cep + " - " + cidade + "/" + uf;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
