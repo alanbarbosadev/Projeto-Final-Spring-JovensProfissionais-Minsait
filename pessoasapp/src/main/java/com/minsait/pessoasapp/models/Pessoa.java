@@ -1,19 +1,22 @@
 package com.minsait.pessoasapp.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_pessoa")
-public class Pessoa {
-
+public class Pessoa implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    @NotBlank
     private String nome;
     private String endereco;
     private String cep;
@@ -87,7 +90,10 @@ public class Pessoa {
     }
 
     public String enderecoMalaDireta() {
-        return endereco + " - CEP: " + cep + " - " + cidade + "/" + uf;
+        if(getEndereco() == null || getCep() == null) {
+            return "Endereço Indisponível";
+        }
+        return getEndereco() + " - CEP: " + getCep() + (getCidade() == null ? " " : (" - " + getCidade() + "/")) + (getUf() == null ? "Sem UF" : getUf());
     }
 
     @Override

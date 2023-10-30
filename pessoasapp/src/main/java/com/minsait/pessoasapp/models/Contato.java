@@ -2,12 +2,15 @@ package com.minsait.pessoasapp.models;
 
 import com.minsait.pessoasapp.models.enums.TipoContato;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_contato")
-public class Contato {
+public class Contato implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +18,7 @@ public class Contato {
     @Column(nullable = false)
     private Integer tipoContato;
     @Column(nullable = false)
+    @NotBlank
     private String contato;
 
     public Contato() {}
