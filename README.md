@@ -40,7 +40,7 @@
 <br>
 <h2 align="center">Para Executar o Projeto</h2>
 <br>
-<p>- Com o projeto aberto no IntelliJ, Eclipse ou qualquer IDE Java de sua preferência, navegue até o arquivo application.properties no diretório "resources" e modifique os dados de acordo com sua conexão local do MySql. Obs: Verifique se as dependências foram instalador pelo Maven no arquivo pom.xml no diretório raiz</p>
+<p>- Com o projeto aberto no IntelliJ, Eclipse ou qualquer IDE Java de sua preferência, navegue até o arquivo src/main/resources/application.properties e modifique os dados de acordo com sua conexão local do MySql. Obs: Verifique se as dependências foram instaladas pelo Maven no arquivo pom.xml no diretório raiz. Após executado o projeto, basta copiar o link do swagger abaixo para ter acesso a documentação da API</p>
 <h2 align="center">Link do Swagger</h2>
   <p align="center">http://localhost:8080/swagger-ui/index.html</p>
 <br>
