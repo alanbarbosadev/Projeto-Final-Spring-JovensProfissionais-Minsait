@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class ContatoService implements ContatoServiceInterface {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Contato getById(Long id) {
         Optional<Contato> contatoOptional = contatoRepository.findById(id);
         Contato contato = contatoOptional.orElseThrow(() -> new ResourceNotFoundException("Nenhum contato com esse ID foi encontrado."));
@@ -29,6 +31,7 @@ public class ContatoService implements ContatoServiceInterface {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Contato update(Long id, Contato contato) {
         try {
             Contato contatoAtualizado = contatoRepository.getReferenceById(id);
