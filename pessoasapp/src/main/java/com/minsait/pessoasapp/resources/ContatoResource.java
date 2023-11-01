@@ -1,6 +1,7 @@
 package com.minsait.pessoasapp.resources;
 
-import com.minsait.pessoasapp.models.Contato;
+import com.minsait.pessoasapp.dtos.AtualizarContatoDTO;
+import com.minsait.pessoasapp.dtos.ContatoDTO;
 import com.minsait.pessoasapp.services.ContatoService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,16 @@ public class ContatoResource {
 
     @Operation(summary = "Retorna o contato cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Contato> getContatoById(@PathVariable Long id) {
-        var contato = contatoService.getById(id);
-        return ResponseEntity.ok().body(contato);
+    public ResponseEntity<ContatoDTO> getContatoById(@PathVariable Long id) {
+        var contatoDTO = contatoService.getById(id);
+        return ResponseEntity.ok().body(contatoDTO);
     }
 
-    @Operation(summary = "Atualiza o registro do contato cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")
+    @Operation(summary = "Atualiza o registro do contato cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException. Observação: Opções (TELEFONE ou CELULAR)")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Contato> updateContato(@PathVariable Long id, @RequestBody Contato contato) {
-        contato = contatoService.update(id, contato);
-        return ResponseEntity.ok().body(contato);
+    public ResponseEntity<ContatoDTO> updateContato(@PathVariable Long id, @RequestBody AtualizarContatoDTO atualizarContatoDTO) {
+        var contatoDTO = contatoService.update(id, atualizarContatoDTO);
+        return ResponseEntity.ok().body(contatoDTO);
     }
 
     @Operation(summary = "Deleta o registro do contato cujo ID é igual ao especificado, bem como os contatos associados a ele. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")

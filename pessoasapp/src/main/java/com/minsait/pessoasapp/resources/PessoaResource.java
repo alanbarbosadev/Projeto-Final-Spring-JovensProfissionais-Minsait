@@ -1,8 +1,6 @@
 package com.minsait.pessoasapp.resources;
 
-import com.minsait.pessoasapp.dtos.PessoaMalaDiretaDTO;
-import com.minsait.pessoasapp.models.Contato;
-import com.minsait.pessoasapp.models.Pessoa;
+import com.minsait.pessoasapp.dtos.*;
 import com.minsait.pessoasapp.services.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +25,27 @@ public class PessoaResource {
 
     @Operation(summary = "Retorna todas as pessoas cadastradas.")
     @GetMapping
-    public ResponseEntity<List<Pessoa>> getAll() {
+    public ResponseEntity<List<PessoaDTO>> getAll() {
         var pessoas = pessoaService.getAll();
         return ResponseEntity.ok().body(pessoas);
     }
 
     @Operation(summary = "Retorna a pessoa cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Pessoa> getPessoaById(@PathVariable Long id) {
-        var pessoa = pessoaService.getById(id);
-        return ResponseEntity.ok().body(pessoa);
+    public ResponseEntity<PessoaDTO> getPessoaById(@PathVariable Long id) {
+        var pessoaDTO = pessoaService.getById(id);
+        return ResponseEntity.ok().body(pessoaDTO);
 
     }
 
     @Operation(summary = "Retorna todos os contatos da pessoa cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")
     @GetMapping(value = "/{id}/contatos")
-    public ResponseEntity<Set<Contato>> getContatosPessoa(@PathVariable Long id) {
-        var contatos = pessoaService.getAllContatosPessoa(id);
-        return ResponseEntity.ok().body(contatos);
+    public ResponseEntity<Set<ContatoDTO>> getContatosPessoa(@PathVariable Long id) {
+        var contatosDTO = pessoaService.getAllContatosPessoa(id);
+        return ResponseEntity.ok().body(contatosDTO);
     }
 
-    @Operation(summary = "Retorno a pessoa em modelo de mala direta (id, nome, endereço específico concatenado) cujo ID é igual ao especificado. Caso alguma propriedade do endereço específico seja nula, uma String vazia será retornada em seu lugar.")
+    @Operation(summary = "Retorno a pessoa em modelo de mala direta (id, nome, endereço específico concatenado) cujo ID é igual ao especificado. Caso as propriedades Cidade ou UF do endereço específico sejam nulas, uma String vazia será retornada no lugar delas. No caso do endereço ou CEP serem nulos, uma mensagem de Endereço Indisponível será retornada.")
     @GetMapping(value = "/maladireta/{id}")
     public ResponseEntity<PessoaMalaDiretaDTO> getPessoaMalaDiretaById(@PathVariable Long id) {
         var pessoaMalaDiretaDTO = pessoaService.getByIdMalaDireta(id);
@@ -55,30 +53,30 @@ public class PessoaResource {
 
     }
 
-    @Operation(summary = "Cria o registro de uma pessoa no banco de dados. Observação: Não incluir o ID da pessoa e do contato na requisição, pois essas propriedades serão gerenciadas pelo banco de dados automaticamente.")
+    @Operation(summary = "Cria o registro de uma pessoa no banco de dados. Observação: Opções (TELEFONE ou CELULAR)")
     @PostMapping
-    public ResponseEntity<Pessoa> addPessoa(@RequestBody Pessoa pessoa) {
-        pessoa = pessoaService.add(pessoa);
+    public ResponseEntity<PessoaDTO> addPessoa(@RequestBody CriarPessoaDTO criarPessoaDTO) {
+        var pessoaDTO = pessoaService.add(criarPessoaDTO);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(pessoa.getId())
+                .buildAndExpand(pessoaDTO.id())
                 .toUri();
-        return ResponseEntity.created(uri).body(pessoa);
+        return ResponseEntity.created(uri).body(pessoaDTO);
     }
 
-    @Operation(summary = "Adiciona um novo contato a pessoa cujo ID é igual ao especificado. Observação: Não incluir o ID do contato na requisição, pois essa propriedade será gerenciada automaticamente pelo banco de dados.")
+    @Operation(summary = "Adiciona um novo contato a pessoa cujo ID é igual ao especificado. Observação: Opções (TELEFONE ou CELULAR)")
     @PostMapping(value = "/{id}/contatos")
-    public ResponseEntity<Pessoa> addPessoa(@PathVariable Long id, @RequestBody Contato contato) {
-        var pessoa = pessoaService.addContato(id, contato);
-        return ResponseEntity.ok().body(pessoa);
+    public ResponseEntity<PessoaDTO> addContatoPessoa(@PathVariable Long id, @RequestBody AdicionarContatoDTO adicionarContatoDTO) {
+        var pessoaDTO = pessoaService.addContato(id, adicionarContatoDTO);
+        return ResponseEntity.ok().body(pessoaDTO);
     }
 
     @Operation(summary = "Atualiza o registro da pessoa cujo ID é igual ao especificado. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Pessoa> updatePessoa(@PathVariable Long id, @RequestBody Pessoa pessoa) {
-        pessoa = pessoaService.update(id, pessoa);
-        return ResponseEntity.ok().body(pessoa);
+    public ResponseEntity<PessoaDTO> updatePessoa(@PathVariable Long id, @RequestBody AtualizarPessoaDTO atualizarPessoaDTO) {
+        var pessoaAtualizada = pessoaService.update(id, atualizarPessoaDTO);
+        return ResponseEntity.ok().body(pessoaAtualizada);
     }
 
     @Operation(summary = "Deleta o registro da pessoa cujo ID é igual ao especificado, bem como os contatos associados a ele. Caso não haja nenhum registro com o ID especificado, será lançada uma Excepção do tipo ResourceNotFoundException.")

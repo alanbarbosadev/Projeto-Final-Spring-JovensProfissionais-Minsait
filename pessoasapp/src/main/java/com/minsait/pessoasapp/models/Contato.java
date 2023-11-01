@@ -23,6 +23,11 @@ public class Contato implements Serializable {
 
     public Contato() {}
 
+    public Contato(TipoContato tipoContato, String contato) {
+        setTipoContato(tipoContato);
+        this.contato = contato;
+    }
+
     public Contato(Long id, TipoContato tipoContato, String contato) {
         this.id = id;
         setTipoContato(tipoContato);

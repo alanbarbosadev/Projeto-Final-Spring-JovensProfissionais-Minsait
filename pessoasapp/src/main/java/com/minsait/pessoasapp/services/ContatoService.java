@@ -1,5 +1,7 @@
 package com.minsait.pessoasapp.services;
 
+import com.minsait.pessoasapp.dtos.AtualizarContatoDTO;
+import com.minsait.pessoasapp.dtos.ContatoDTO;
 import com.minsait.pessoasapp.models.Contato;
 import com.minsait.pessoasapp.repositories.ContatoRepository;
 import com.minsait.pessoasapp.services.exceptions.ResourceNotFoundException;
@@ -21,23 +23,24 @@ public class ContatoService implements ContatoServiceInterface {
         this.contatoRepository = contatoRepository;
     }
 
-
     @Override
     @Transactional(readOnly = true)
-    public Contato getById(Long id) {
+    public ContatoDTO getById(Long id) {
         Optional<Contato> contatoOptional = contatoRepository.findById(id);
         Contato contato = contatoOptional.orElseThrow(() -> new ResourceNotFoundException("Nenhum contato com esse ID foi encontrado."));
-        return contato;
+        return mapContatoParaContatoDTO(contato);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Contato update(Long id, Contato contato) {
+    @Transactional
+    public ContatoDTO update(Long id, AtualizarContatoDTO atualizarContatoDTO) {
         try {
             Contato contatoAtualizado = contatoRepository.getReferenceById(id);
-            contatoAtualizado.setTipoContato(contato.getTipoContato());
-            contatoAtualizado.setContato(contato.getContato());
-            return contatoRepository.save(contatoAtualizado);
+            contatoAtualizado.setTipoContato(atualizarContatoDTO.tipoContato());
+            contatoAtualizado.setContato(atualizarContatoDTO.contato());
+            contatoAtualizado = contatoRepository.save(contatoAtualizado);
+
+            return mapContatoParaContatoDTO(contatoAtualizado);
         }
         catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Nenhum contato com esse ID foi encontrado.");
@@ -52,5 +55,12 @@ public class ContatoService implements ContatoServiceInterface {
         catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Nenhum contato com esse ID foi encontrado.");
         }
+    }
+
+    private ContatoDTO mapContatoParaContatoDTO(Contato contato) {
+        return new ContatoDTO(
+                contato.getId(),
+                contato.getTipoContato(),
+                contato.getContato());
     }
 }
