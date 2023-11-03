@@ -16,6 +16,7 @@ public class Contato implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
+    @NotBlank
     private Integer tipoContato;
     @Column(nullable = false)
     @NotBlank
