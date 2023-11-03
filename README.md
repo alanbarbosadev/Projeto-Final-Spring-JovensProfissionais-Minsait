@@ -17,6 +17,10 @@
  </div>
 </div>
 <br>
+<h2 align="center">Link do Swagger</h2>
+<br>
+  <p align="center">http://localhost:8080/swagger-ui/index.html</p>
+<br>
 <h2 align="center">Ferramentas Utilizadas</h2>
 <br>
 <p>- IntelliJ Community Edition 2023.2 [https://www.jetbrains.com/pt-br/idea/download/]</p>
@@ -36,11 +40,9 @@
 <br>
 <h4 align="center">Funcionalidades Implementadas</h4>
 <br>
-<div align="center"><img alt="Swagger-Minsait" src="https://github.com/alanbarbosadev/Projeto-Final-Spring-JovensProfissionais-Minsait/assets/81317494/1c88269d-7e39-41d1-9f6e-2940bee510b7"></div>
+<div align="center"><img alt="Swagger-Minsait" src="https://github.com/alanbarbosadev/Projeto-Final-Spring-JovensProfissionais-Minsait/assets/81317494/c0b6d87b-ff58-4513-ac9a-e9a8248e36a8"></div>
 <br>
 <h2 align="center">Para Executar o Projeto</h2>
 <br>
-<p>- Com o projeto aberto no IntelliJ, Eclipse ou qualquer IDE Java de sua preferência, navegue até o arquivo src/main/resources/application.properties e modifique os dados de acordo com sua conexão local do MySql. Obs: Verifique se as dependências foram instaladas pelo Maven no arquivo pom.xml no diretório raiz. Após executado o projeto, basta copiar o link do swagger abaixo para ter acesso a documentação da API</p>
-<h2 align="center">Link do Swagger</h2>
-  <p align="center">http://localhost:8080/swagger-ui/index.html</p>
-<br>
+<p>- Com o projeto aberto no IntelliJ, Eclipse ou qualquer IDE Java de sua preferência, navegue até o arquivo src/main/resources/application.properties e modifique os dados de acordo com o nome de sua base de dados e conexão local do MySql. Obs: Verifique se as dependências foram instaladas pelo Maven no arquivo pom.xml no diretório raiz. Após executado o projeto, basta copiar o link do swagger abaixo para ter acesso a documentação da API.</p>
+<p>Caso o criação das tabelas pelo JPA apresente alguem erro, navegue até o arquivo src/main/resources/application.properties, comente a linha "spring.jpa.hibernate.ddl-auto=update" e descomente a linha "spring.jpa.hibernate.ddl-auto=create-drop".</p>
